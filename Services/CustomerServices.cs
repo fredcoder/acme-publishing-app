@@ -20,55 +20,57 @@ namespace acme_publishing_app.Services
 
         public async Task<Customer> GetCustomer(string id)
         {
-            var Customer = new Customer();
+            var customer = new Customer();
             await Task.Run(() =>
             {
-                Customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
+                customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
             });
-            return Customer;
+            return customer;
         }
 
         public async Task<List<Customer>> GetCustomers()
         {
-            var Customer = new List<Customer>();
+            var customer = new List<Customer>();
             await Task.Run(() =>
             {
-                Customer = _webApiContext.Customers.ToList();
+                customer = _webApiContext.Customers.ToList();
             });
-            return Customer;
+            return customer;
         }
 
-        public async Task<Customer> PostCustomer(Customer Customer)
+        public async Task<Customer> PostCustomer(Customer customer)
         {
-            Customer.Id = Guid.NewGuid().ToString();
+            customer.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newCustomer = _webApiContext.Customers.AddAsync(Customer);
+                var newCustomer = _webApiContext.Customers.AddAsync(customer);
             });
             _webApiContext.SaveChanges();
 
-            return Customer;
+            return customer;
         }
 
         public async Task<Customer> PutCustomer(string id, Customer newCustomer)
         {
-            var Customer = new Customer();
+            var customer = new Customer();
             await Task.Run(() =>
             {
-                Customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
+                customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
+                customer.FirstName = newCustomer.FirstName;
+                customer.LastName = newCustomer.LastName;
             });
             _webApiContext.SaveChanges();
 
-            return Customer;
+            return customer;
         }
 
         public async Task DeleteCustomer(string id)
         {
-            var Customer = new Customer();
+            var customer = new Customer();
             await Task.Run(() =>
             {
-                Customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
-                var oldCustomer = _webApiContext.Customers.Remove(Customer);
+                customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
+                var oldCustomer = _webApiContext.Customers.Remove(customer);
             });
             _webApiContext.SaveChanges();
         }

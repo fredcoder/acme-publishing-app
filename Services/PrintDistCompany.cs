@@ -20,55 +20,56 @@ namespace acme_publishing_app.Services
 
         public async Task<PrintDistCompany> GetPrintDistCompany(string id)
         {
-            var PrintDistCompany = new PrintDistCompany();
+            var printDistCompany = new PrintDistCompany();
             await Task.Run(() =>
             {
-                PrintDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
+                printDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
             });
-            return PrintDistCompany;
+            return printDistCompany;
         }
 
         public async Task<List<PrintDistCompany>> GetPrintDistCompanies()
         {
-            var PrintDistCompany = new List<PrintDistCompany>();
+            var printDistCompany = new List<PrintDistCompany>();
             await Task.Run(() =>
             {
-                PrintDistCompany = _webApiContext.PrintDistCompanies.ToList();
+                printDistCompany = _webApiContext.PrintDistCompanies.ToList();
             });
-            return PrintDistCompany;
+            return printDistCompany;
         }
 
-        public async Task<PrintDistCompany> PostPrintDistCompany(PrintDistCompany PrintDistCompany)
+        public async Task<PrintDistCompany> PostPrintDistCompany(PrintDistCompany printDistCompany)
         {
-            PrintDistCompany.Id = Guid.NewGuid().ToString();
+            printDistCompany.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newPrintDistCompany = _webApiContext.PrintDistCompanies.AddAsync(PrintDistCompany);
+                var newPrintDistCompany = _webApiContext.PrintDistCompanies.AddAsync(printDistCompany);
             });
             _webApiContext.SaveChanges();
 
-            return PrintDistCompany;
+            return printDistCompany;
         }
 
         public async Task<PrintDistCompany> PutPrintDistCompany(string id, PrintDistCompany newPrintDistCompany)
         {
-            var PrintDistCompany = new PrintDistCompany();
+            var printDistCompany = new PrintDistCompany();
             await Task.Run(() =>
             {
-                PrintDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
+                printDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
+                printDistCompany.Name = newPrintDistCompany.Name;
             });
             _webApiContext.SaveChanges();
 
-            return PrintDistCompany;
+            return printDistCompany;
         }
 
         public async Task DeletePrintDistCompany(string id)
         {
-            var PrintDistCompany = new PrintDistCompany();
+            var printDistCompany = new PrintDistCompany();
             await Task.Run(() =>
             {
-                PrintDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
-                var oldPrintDistCompany = _webApiContext.PrintDistCompanies.Remove(PrintDistCompany);
+                printDistCompany = _webApiContext.PrintDistCompanies.FirstOrDefault(p => p.Id == id);
+                var oldPrintDistCompany = _webApiContext.PrintDistCompanies.Remove(printDistCompany);
             });
             _webApiContext.SaveChanges();
         }

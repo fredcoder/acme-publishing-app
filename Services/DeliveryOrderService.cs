@@ -20,55 +20,58 @@ namespace acme_publishing_app.Services
 
         public async Task<DeliveryOrder> GetDeliveryOrder(string id)
         {
-            var DeliveryOrder = new DeliveryOrder();
+            var deliveryOrder = new DeliveryOrder();
             await Task.Run(() =>
             {
-                DeliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
+                deliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
             });
-            return DeliveryOrder;
+            return deliveryOrder;
         }
 
         public async Task<List<DeliveryOrder>> GetDeliveryOrders()
         {
-            var DeliveryOrder = new List<DeliveryOrder>();
+            var deliveryOrder = new List<DeliveryOrder>();
             await Task.Run(() =>
             {
-                DeliveryOrder = _webApiContext.DeliveryOrders.ToList();
+                deliveryOrder = _webApiContext.DeliveryOrders.ToList();
             });
-            return DeliveryOrder;
+            return deliveryOrder;
         }
 
-        public async Task<DeliveryOrder> PostDeliveryOrder(DeliveryOrder DeliveryOrder)
+        public async Task<DeliveryOrder> PostDeliveryOrder(DeliveryOrder deliveryOrder)
         {
-            DeliveryOrder.Id = Guid.NewGuid().ToString();
+            deliveryOrder.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newDeliveryOrder = _webApiContext.DeliveryOrders.AddAsync(DeliveryOrder);
+                var newDeliveryOrder = _webApiContext.DeliveryOrders.AddAsync(deliveryOrder);
             });
             _webApiContext.SaveChanges();
 
-            return DeliveryOrder;
+            return deliveryOrder;
         }
 
         public async Task<DeliveryOrder> PutDeliveryOrder(string id, DeliveryOrder newDeliveryOrder)
         {
-            var DeliveryOrder = new DeliveryOrder();
+            var deliveryOrder = new DeliveryOrder();
             await Task.Run(() =>
             {
-                DeliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
+                deliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
+                deliveryOrder.PrintDistCompanyId = newDeliveryOrder.PrintDistCompanyId;
+                deliveryOrder.DeliveryAddressId = newDeliveryOrder.DeliveryAddressId;
+                deliveryOrder.SubscriptionId = newDeliveryOrder.SubscriptionId;
             });
             _webApiContext.SaveChanges();
 
-            return DeliveryOrder;
+            return deliveryOrder;
         }
 
         public async Task DeleteDeliveryOrder(string id)
         {
-            var DeliveryOrder = new DeliveryOrder();
+            var deliveryOrder = new DeliveryOrder();
             await Task.Run(() =>
             {
-                DeliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
-                var oldDeliveryOrder = _webApiContext.DeliveryOrders.Remove(DeliveryOrder);
+                deliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
+                var oldDeliveryOrder = _webApiContext.DeliveryOrders.Remove(deliveryOrder);
             });
             _webApiContext.SaveChanges();
         }

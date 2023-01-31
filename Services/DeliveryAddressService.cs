@@ -20,55 +20,58 @@ namespace acme_publishing_app.Services
 
         public async Task<DeliveryAddress> GetDeliveryAddress(string id)
         {
-            var DeliveryAddress = new DeliveryAddress();
+            var deliveryAddress = new DeliveryAddress();
             await Task.Run(() =>
             {
-                DeliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
+                deliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
             });
-            return DeliveryAddress;
+            return deliveryAddress;
         }
 
         public async Task<List<DeliveryAddress>> GetDeliveryAddresses()
         {
-            var DeliveryAddress = new List<DeliveryAddress>();
+            var deliveryAddress = new List<DeliveryAddress>();
             await Task.Run(() =>
             {
-                DeliveryAddress = _webApiContext.DeliveryAddresses.ToList();
+                deliveryAddress = _webApiContext.DeliveryAddresses.ToList();
             });
-            return DeliveryAddress;
+            return deliveryAddress;
         }
 
-        public async Task<DeliveryAddress> PostDeliveryAddress(DeliveryAddress DeliveryAddress)
+        public async Task<DeliveryAddress> PostDeliveryAddress(DeliveryAddress deliveryAddress)
         {
-            DeliveryAddress.Id = Guid.NewGuid().ToString();
+            deliveryAddress.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newDeliveryAddress = _webApiContext.DeliveryAddresses.AddAsync(DeliveryAddress);
+                var newDeliveryAddress = _webApiContext.DeliveryAddresses.AddAsync(deliveryAddress);
             });
             _webApiContext.SaveChanges();
 
-            return DeliveryAddress;
+            return deliveryAddress;
         }
 
         public async Task<DeliveryAddress> PutDeliveryAddress(string id, DeliveryAddress newDeliveryAddress)
         {
-            var DeliveryAddress = new DeliveryAddress();
+            var deliveryAddress = new DeliveryAddress();
             await Task.Run(() =>
             {
-                DeliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
+                deliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
+                deliveryAddress.Description = newDeliveryAddress.Description;
+                deliveryAddress.CustomerId = newDeliveryAddress.CustomerId;
+                deliveryAddress.CountryId = newDeliveryAddress.CountryId;
             });
             _webApiContext.SaveChanges();
 
-            return DeliveryAddress;
+            return deliveryAddress;
         }
 
         public async Task DeleteDeliveryAddress(string id)
         {
-            var DeliveryAddress = new DeliveryAddress();
+            var deliveryAddress = new DeliveryAddress();
             await Task.Run(() =>
             {
-                DeliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
-                var oldDeliveryAddress = _webApiContext.DeliveryAddresses.Remove(DeliveryAddress);
+                deliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
+                var oldDeliveryAddress = _webApiContext.DeliveryAddresses.Remove(deliveryAddress);
             });
             _webApiContext.SaveChanges();
         }

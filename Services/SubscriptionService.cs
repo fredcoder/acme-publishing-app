@@ -20,55 +20,56 @@ namespace acme_publishing_app.Services
 
         public async Task<Subscription> GetSubscription(string id)
         {
-            var Subscription = new Subscription();
+            var subscription = new Subscription();
             await Task.Run(() =>
             {
-                Subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
+                subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
             });
-            return Subscription;
+            return subscription;
         }
 
         public async Task<List<Subscription>> GetSubscriptions()
         {
-            var Subscription = new List<Subscription>();
+            var subscription = new List<Subscription>();
             await Task.Run(() =>
             {
-                Subscription = _webApiContext.Subscriptions.ToList();
+                subscription = _webApiContext.Subscriptions.ToList();
             });
-            return Subscription;
+            return subscription;
         }
 
-        public async Task<Subscription> PostSubscription(Subscription Subscription)
+        public async Task<Subscription> PostSubscription(Subscription subscription)
         {
-            Subscription.Id = Guid.NewGuid().ToString();
+            subscription.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newSubscription = _webApiContext.Subscriptions.AddAsync(Subscription);
+                var newSubscription = _webApiContext.Subscriptions.AddAsync(subscription);
             });
             _webApiContext.SaveChanges();
 
-            return Subscription;
+            return subscription;
         }
 
         public async Task<Subscription> PutSubscription(string id, Subscription newSubscription)
         {
-            var Subscription = new Subscription();
+            var subscription = new Subscription();
             await Task.Run(() =>
             {
-                Subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
+                subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
+                subscription.Name = newSubscription.Name;
             });
             _webApiContext.SaveChanges();
 
-            return Subscription;
+            return subscription;
         }
 
         public async Task DeleteSubscription(string id)
         {
-            var Subscription = new Subscription();
+            var subscription = new Subscription();
             await Task.Run(() =>
             {
-                Subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
-                var oldSubscription = _webApiContext.Subscriptions.Remove(Subscription);
+                subscription = _webApiContext.Subscriptions.FirstOrDefault(p => p.Id == id);
+                var oldSubscription = _webApiContext.Subscriptions.Remove(subscription);
             });
             _webApiContext.SaveChanges();
         }

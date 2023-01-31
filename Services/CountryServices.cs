@@ -20,55 +20,56 @@ namespace acme_publishing_app.Services
 
         public async Task<Country> GetCountry(string id)
         {
-            var Country = new Country();
+            var country = new Country();
             await Task.Run(() =>
             {
-                Country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
+                country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
             });
-            return Country;
+            return country;
         }
 
         public async Task<List<Country>> GetCountries()
         {
-            var Country = new List<Country>();
+            var country = new List<Country>();
             await Task.Run(() =>
             {
-                Country = _webApiContext.Countries.ToList();
+                country = _webApiContext.Countries.ToList();
             });
-            return Country;
+            return country;
         }
 
-        public async Task<Country> PostCountry(Country Country)
+        public async Task<Country> PostCountry(Country country)
         {
-            Country.Id = Guid.NewGuid().ToString();
+            country.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
             {
-                var newCountry = _webApiContext.Countries.AddAsync(Country);
+                var newCountry = _webApiContext.Countries.AddAsync(country);
             });
             _webApiContext.SaveChanges();
 
-            return Country;
+            return country;
         }
 
         public async Task<Country> PutCountry(string id, Country newCountry)
         {
-            var Country = new Country();
+            var country = new Country();
             await Task.Run(() =>
             {
-                Country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
+                country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
+                country.Name = newCountry.Name;
             });
             _webApiContext.SaveChanges();
 
-            return Country;
+            return country;
         }
 
         public async Task DeleteCountry(string id)
         {
-            var Country = new Country();
+            var country = new Country();
             await Task.Run(() =>
             {
-                Country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
-                var oldCountry = _webApiContext.Countries.Remove(Country);
+                country = _webApiContext.Countries.FirstOrDefault(p => p.Id == id);
+                var oldCountry = _webApiContext.Countries.Remove(country);
             });
             _webApiContext.SaveChanges();
         }
