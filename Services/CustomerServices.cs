@@ -23,7 +23,8 @@ namespace acme_publishing_app.Services
             var customer = new Customer();
             await Task.Run(() =>
             {
-                customer = _webApiContext.Customers.FirstOrDefault(p => p.Id == id);
+                customer = _webApiContext.Customers
+                .FirstOrDefault(p => p.Id == id);
             });
             return customer;
         }
@@ -33,7 +34,8 @@ namespace acme_publishing_app.Services
             var customer = new List<Customer>();
             await Task.Run(() =>
             {
-                customer = _webApiContext.Customers.ToList();
+                customer = _webApiContext.Customers
+                .ToList();
             });
             return customer;
         }

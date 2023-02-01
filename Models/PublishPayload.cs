@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace acme_publishing_app.Models
 {
-    public class PrintDistCompany
+    public class PublishPayload
     {
         [Key]
         public string Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string SubscriptionName { get; set; }
 
         [Required]
-        public string ApiUrl { get; set; }
+        public string CustomerName { get; set; }
+
+        [Required]
+        public string CustomerAddress { get; set; }
+
     }
 }

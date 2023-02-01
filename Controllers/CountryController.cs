@@ -23,8 +23,8 @@ namespace acme_publishing_app.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Country>>> Get()
         {
-            var Countries = await _countryService.GetCountries();
-            return Ok(Countries);
+            var countries = await _countryService.GetCountries();
+            return Ok(countries);
         }
 
         [HttpGet("{id}")]
@@ -65,8 +65,8 @@ namespace acme_publishing_app.Controllers
 
             try
             {
-                var prod = await _countryService.GetCountry(id);
-                if (prod == null)
+                var obj = await _countryService.GetCountry(id);
+                if (obj == null)
                 {
                     ModelState.AddModelError("PutCountry Error", "Country does not exist");
                     return BadRequest(ModelState);
@@ -86,8 +86,8 @@ namespace acme_publishing_app.Controllers
         {
             try
             {
-                var prod = await _countryService.GetCountry(id);
-                if (prod == null)
+                var obj = await _countryService.GetCountry(id);
+                if (obj == null)
                 {
                     ModelState.AddModelError("DeleteCountry Error", "Country does not exist");
                     return BadRequest(ModelState);

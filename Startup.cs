@@ -30,6 +30,10 @@ namespace acme_publishing_app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "acme_publishing_app", Version = "v1" });
@@ -42,7 +46,7 @@ namespace acme_publishing_app
             services.AddScoped<IDeliveryOrderService, DeliveryOrderService>();
             services.AddScoped<IPrintDistCompanyService, PrintDistCompanyService>();
             services.AddScoped<ISubscriptionService, SubscriptionService>();
-
+            services.AddScoped<IDeliveryCompanyService, DeliveryCompanyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -23,7 +23,13 @@ namespace acme_publishing_app.Services
             var deliveryOrder = new DeliveryOrder();
             await Task.Run(() =>
             {
-                deliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
+                deliveryOrder = _webApiContext.DeliveryOrders
+                .Include(d => d.Subscription)
+                .Include(d => d.PrintDistCompany)
+                .Include(d => d.DeliveryAddress)
+                .Include(d => d.DeliveryAddress.Customer)
+                .Include(d => d.DeliveryAddress.Country)
+                .FirstOrDefault(p => p.Id == id);
             });
             return deliveryOrder;
         }
@@ -33,7 +39,13 @@ namespace acme_publishing_app.Services
             var deliveryOrder = new List<DeliveryOrder>();
             await Task.Run(() =>
             {
-                deliveryOrder = _webApiContext.DeliveryOrders.ToList();
+                deliveryOrder = _webApiContext.DeliveryOrders
+                .Include(d => d.Subscription)
+                .Include(d => d.PrintDistCompany)
+                .Include(d => d.DeliveryAddress)
+                .Include(d => d.DeliveryAddress.Customer)
+                .Include(d => d.DeliveryAddress.Country)
+                .ToList();
             });
             return deliveryOrder;
         }
@@ -42,9 +54,9 @@ namespace acme_publishing_app.Services
         {
             deliveryOrder.Id = Guid.NewGuid().ToString();
             await Task.Run(() =>
-            {
-                var newDeliveryOrder = _webApiContext.DeliveryOrders.AddAsync(deliveryOrder);
-            });
+                {
+                    var newDeliveryOrder = _webApiContext.DeliveryOrders.AddAsync(deliveryOrder);
+                });
             _webApiContext.SaveChanges();
 
             return deliveryOrder;
@@ -56,7 +68,6 @@ namespace acme_publishing_app.Services
             await Task.Run(() =>
             {
                 deliveryOrder = _webApiContext.DeliveryOrders.FirstOrDefault(p => p.Id == id);
-                deliveryOrder.PrintDistCompanyId = newDeliveryOrder.PrintDistCompanyId;
                 deliveryOrder.DeliveryAddressId = newDeliveryOrder.DeliveryAddressId;
                 deliveryOrder.SubscriptionId = newDeliveryOrder.SubscriptionId;
             });
@@ -75,5 +86,6 @@ namespace acme_publishing_app.Services
             });
             _webApiContext.SaveChanges();
         }
+
     }
 }

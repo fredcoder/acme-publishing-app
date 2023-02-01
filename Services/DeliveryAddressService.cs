@@ -23,7 +23,10 @@ namespace acme_publishing_app.Services
             var deliveryAddress = new DeliveryAddress();
             await Task.Run(() =>
             {
-                deliveryAddress = _webApiContext.DeliveryAddresses.FirstOrDefault(p => p.Id == id);
+                deliveryAddress = _webApiContext.DeliveryAddresses
+                .Include(d => d.Customer)
+                .Include(d => d.Country)
+                .FirstOrDefault(p => p.Id == id);
             });
             return deliveryAddress;
         }
@@ -33,7 +36,10 @@ namespace acme_publishing_app.Services
             var deliveryAddress = new List<DeliveryAddress>();
             await Task.Run(() =>
             {
-                deliveryAddress = _webApiContext.DeliveryAddresses.ToList();
+                deliveryAddress = _webApiContext.DeliveryAddresses
+                .Include(d => d.Customer)
+                .Include(d => d.Country)
+                .ToList();
             });
             return deliveryAddress;
         }
